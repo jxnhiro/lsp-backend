@@ -17,56 +17,64 @@ enum TipeKendaraan {
 }
 
 model Kendaraan {
-  id               Int           @id @default(autoincrement())
+  id               Int              @id @default(autoincrement())
   model            String
   tahun            Int
   jumlah_penumpang Int
   manufaktur       String
   harga            Float
+  gambar           String
   tipe_kendaraan   TipeKendaraan
-  mobil_id         Int?          @unique
-  Mobil            Mobil?        @relation(references: [id], fields: [mobil_id])
-  motor_id         Int?          @unique
-  Motor            Motor?        @relation(references: [id], fields: [motor_id])
-  truck_id         Int?          @unique
-  Truck            Truck?        @relation(references: [id], fields: [truck_id])
-  Pesan            Pesan[]
+  Mobil            Mobil?
+  Motor            Motor?
+  Truck            Truck?
+  PesanKendaraan   PesanKendaraan[]
 }
 
 model Mobil {
-  id               Int        @id @default(autoincrement())
+  id               Int       @id @default(autoincrement())
   tipe_bahan_bakar String
   luas_bagasi      Float
-  Kendaraan        Kendaraan?
+  kendaraan_id     Int       @unique
+  Kendaraan        Kendaraan @relation(references: [id], fields: [kendaraan_id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Motor {
-  id               Int        @id @default(autoincrement())
+  id               Int       @id @default(autoincrement())
   ukuran_bagasi    Float
   kapasitas_bensin Float
-  Kendaraan        Kendaraan?
+  kendaraan_id     Int       @unique
+  Kendaraan        Kendaraan @relation(references: [id], fields: [kendaraan_id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Truck {
-  id              Int        @id @default(autoincrement())
+  id              Int       @id @default(autoincrement())
   jumlah_roda_ban Int
   luas_area_kargo Float
-  kendaraan       Kendaraan?
+  kendaraan_id    Int       @unique
+  Kendaraan       Kendaraan @relation(references: [id], fields: [kendaraan_id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Customer {
-  id           Int     @id @default(autoincrement())
+  id_card      String     @id
   nama         String
   alamat       String
   nomor_ponsel String
-  id_card      String
   Pesan        Pesan[]
 }
 
 model Pesan {
-  id           Int       @id @default(autoincrement())
-  kendaraan_id Int
-  kendaraan    Kendaraan @relation(references: [id], fields: [kendaraan_id])
-  customer_id  Int
-  customer     Customer  @relation(references: [id], fields: [customer_id])
+  id             Int              @id @default(autoincrement())
+  customer_id    String
+  Customer       Customer         @relation(references: [id_card], fields: [customer_id], onDelete: Cascade, onUpdate: Cascade)
+  PesanKendaraan PesanKendaraan[]
+}
+
+model PesanKendaraan {
+  id               Int       @id @default(autoincrement())
+  pesan_id         Int
+  Pesan            Pesan     @relation(references: [id], fields: [pesan_id], onDelete: Cascade, onUpdate: Cascade)
+  kendaraan_id     Int
+  Kendaraan        Kendaraan @relation(references: [id], fields: [kendaraan_id], onDelete: Cascade, onUpdate: Cascade)
+  jumlah_kendaraan Int
 }

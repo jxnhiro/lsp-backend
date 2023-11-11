@@ -1,10 +1,17 @@
-import { Router } from "express";
-
-import { getAllKendaraan, postKendaraan } from "../controllers/kendaraan";
+import { Router } from 'express';
+import multer from 'multer';
+import {
+  deleteKendaraan,
+  getAllKendaraan,
+  postKendaraan,
+  putKendaraan,
+} from '../controllers/kendaraan';
 
 const router = Router();
 
-router.get("/kendaraan", getAllKendaraan);
-router.post("/kendaraan/tambah", postKendaraan);
+router.get('/kendaraan', getAllKendaraan);
+router.post('/kendaraan/tambah', postKendaraan);
+router.put('/kendaraan/ubah/:kendaraanId', putKendaraan);
+router.delete('/kendaraan/hapus/:kendaraanId', deleteKendaraan);
 
 export default router;
