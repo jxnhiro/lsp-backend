@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum TipeKendaraan {
+  MOBIL
+  MOTOR
+  TRUCK
+}
+
+model Kendaraan {
+  id               Int           @id @default(autoincrement())
+  model            String
+  tahun            Int
+  jumlah_penumpang Int
+  manufaktur       String
+  harga            Float
+  tipe_kendaraan   TipeKendaraan
+  mobil_id         Int?          @unique
+  Mobil            Mobil?        @relation(references: [id], fields: [mobil_id])
+  motor_id         Int?          @unique
+  Motor            Motor?        @relation(references: [id], fields: [motor_id])
+  truck_id         Int?          @unique
+  Truck            Truck?        @relation(references: [id], fields: [truck_id])
+  Pesan            Pesan?        @relation(fields: [pesanId], references: [id])
+  pesanId          Int?
+}
+
+model Mobil {
+  id               Int        @id @default(autoincrement())
+  tipe_bahan_bakar String
+  luas_bagasi      Float
+  Kendaraan        Kendaraan?
+}
+
+model Motor {
+  id               Int        @id @default(autoincrement())
+  ukuran_bagasi    Float
+  kapasitas_bensin Float
+  Kendaraan        Kendaraan?
+}
+
+model Truck {
+  id              Int        @id @default(autoincrement())
+  jumlah_roda_ban Int
+  luas_area_kargo Float
+  kendaraan       Kendaraan?
+}
+
+model Customer {
+  id           Int     @id @default(autoincrement())
+  nama         String
+  alamat       String
+  nomor_ponsel String
+  id_card      String
+  Pesan        Pesan[]
+}
+
+model Pesan {
+  id           Int         @id @default(autoincrement())
+  kendaraan_id Int
+  kendaraan    Kendaraan[] @relation(references: [id], fields: [kendaraan_id])
+  customer_id  Int
+  customer     Customer    @relation(references: [id], fields: [customer_id])
+}
