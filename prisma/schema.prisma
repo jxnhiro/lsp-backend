@@ -30,8 +30,7 @@ model Kendaraan {
   Motor            Motor?        @relation(references: [id], fields: [motor_id])
   truck_id         Int?          @unique
   Truck            Truck?        @relation(references: [id], fields: [truck_id])
-  Pesan            Pesan?        @relation(fields: [pesanId], references: [id])
-  pesanId          Int?
+  Pesan            Pesan[]
 }
 
 model Mobil {
@@ -65,9 +64,9 @@ model Customer {
 }
 
 model Pesan {
-  id           Int         @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   kendaraan_id Int
-  kendaraan    Kendaraan[] @relation(references: [id], fields: [kendaraan_id])
+  kendaraan    Kendaraan @relation(references: [id], fields: [kendaraan_id])
   customer_id  Int
-  customer     Customer    @relation(references: [id], fields: [customer_id])
+  customer     Customer  @relation(references: [id], fields: [customer_id])
 }
