@@ -76,7 +76,7 @@ export async function putKendaraan(req, res, next) {
         try {
           kendaraan = await client.kendaraan.update({
             where: {
-              id: req.params.kendaraanId,
+              id: Number(req.params.kendaraanId),
             },
             data: {
               model: req.body.model,
@@ -102,7 +102,7 @@ export async function putKendaraan(req, res, next) {
         try {
           kendaraan = await client.kendaraan.update({
             where: {
-              id: req.params.kendaraanId,
+              id: Number(req.params.kendaraanId),
             },
             data: {
               model: req.body.model,
@@ -157,7 +157,7 @@ export async function putKendaraan(req, res, next) {
         try {
           kendaraan = await client.kendaraan.update({
             where: {
-              id: req.params.kendaraanId,
+              id: Number(req.params.kendaraanId),
             },
             data: {
               model: req.body.model,
@@ -175,6 +175,7 @@ export async function putKendaraan(req, res, next) {
             },
           });
         } catch (err) {
+          console.log(err);
           error = err;
         }
         break;
@@ -182,7 +183,7 @@ export async function putKendaraan(req, res, next) {
         try {
           kendaraan = await client.kendaraan.update({
             where: {
-              id: req.params.kendaraanId,
+              id: Number(req.params.kendaraanId),
             },
             data: {
               model: req.body.model,
@@ -214,7 +215,7 @@ export async function putKendaraan(req, res, next) {
       data: kendaraan,
     });
   }
-
+  console.log(error);
   return res.status(422).json({
     message: 'Failed to modify Kendaraan',
     error: error,
